@@ -6,6 +6,7 @@ History
 
 .. towncrier release notes start
 
+
 2.1.0 (Unreleased)
 ==================
 
@@ -16,6 +17,7 @@ Features
 - Dropped support for Python < 3.8 
 - Add support for 4.2 < Django < 5
 - Dropped support for Django < 4.2
+
 
 1.3.0 (2023-09-26)
 ==================
