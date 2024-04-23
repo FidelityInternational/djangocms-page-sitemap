@@ -2,7 +2,7 @@
 djangocms-page-sitemap-fil
 ==========================
 
-|Gitter| |PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
+|PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
 
 django CMS page extension to handle sitemap customization
 
@@ -152,7 +152,7 @@ Settings
 
 
 .. _page lookup: https://docs.django-cms.org/en/reference/templatetags.html#page_lookup
-.. _django-app-enabler: https://github.com/FidelityInternational/django-app-enabler
+.. _django-app-enabler: https://github.com/nephila/django-app-enabler
 
 .. |PyPiVersion| image:: https://img.shields.io/pypi/v/djangocms-page-sitemap.svg?style=flat-square
     :target: https://pypi.python.org/pypi/djangocms-page-sitemap
