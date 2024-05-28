@@ -1,7 +1,7 @@
 from cms import __version__ as CMS_VERSION
 from packaging.version import Version
 
-CMS_41 = Version('4.1') <= Version(CMS_VERSION)
+CMS_41 = Version("4.1") <= Version(CMS_VERSION)
 
 
 if CMS_41:
