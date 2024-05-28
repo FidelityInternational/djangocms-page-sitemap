@@ -41,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: |
         python setup.py install
-        pip install -r tests/requirements/${{matrix.requirements-file}}.txt
+        pip install -r tests/requirements/${{matrix.requirements-file}}
         sudo apt-get install gettext
         python -m pip install --upgrade pip setuptools tox>4
     - name: Test with tox
