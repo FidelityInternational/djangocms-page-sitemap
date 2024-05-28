@@ -50,8 +50,8 @@ class ExtendedSitemap(CMSSitemap):
         except ImportError:
             return super().items().exclude(page__pagesitemapproperties__include_in_sitemap=False)
 
-    def priority(self, title):
-        ext_key = get_cache_key(title.page)
+    def priority(self, page_url):
+        ext_key = get_cache_key(page_url.page)
         properties = cache.get(ext_key)
         if properties:
             return properties.priority
@@ -59,15 +59,15 @@ class ExtendedSitemap(CMSSitemap):
             try:
                 cache.set(
                     ext_key,
-                    title.page.pagesitemapproperties,
+                    page_url.page.pagesitemapproperties,
                     PAGE_SITEMAP_CACHE_DURATION,
                 )
-                return title.page.pagesitemapproperties.priority
+                return page_url.page.pagesitemapproperties.priority
             except PageSitemapProperties.DoesNotExist:
                 return self.default_priority
 
-    def changefreq(self, title):
-        ext_key = get_cache_key(title.page)
+    def changefreq(self, page_url):
+        ext_key = get_cache_key(page_url.page)
         properties = cache.get(ext_key)
         if properties:  # pragma: no cover
             return properties.changefreq
@@ -75,10 +75,10 @@ class ExtendedSitemap(CMSSitemap):
             try:
                 cache.set(
                     ext_key,
-                    title.page.pagesitemapproperties,
+                    page_url.page.pagesitemapproperties,
                     PAGE_SITEMAP_CACHE_DURATION,
                 )
-                return title.page.pagesitemapproperties.changefreq
+                return page_url.page.pagesitemapproperties.changefreq
             except PageSitemapProperties.DoesNotExist:
                 return self.default_changefreq
 
