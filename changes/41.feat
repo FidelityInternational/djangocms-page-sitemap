@@ -1,0 +1,2 @@
+* Add compatibility with DjangoCMS 4.1
+* Drop compatibility with DjangoCMS < 4.0
