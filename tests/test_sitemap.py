@@ -2,11 +2,12 @@ from decimal import Decimal
 from unittest import skipIf
 
 import cms
-from cms.api import create_page, create_title
+from cms.api import create_page
 from cms.test_utils.util.fuzzy_int import FuzzyInt
 from django.core.cache import cache
 from django.utils.timezone import now
 
+from djangocms_page_sitemap.compat import CMS_41, create_page_content
 from djangocms_page_sitemap.models import PageSitemapProperties
 from djangocms_page_sitemap.sitemap import ExtendedSitemap
 from djangocms_page_sitemap.utils import get_cache_key, is_versioning_enabled
@@ -19,14 +20,14 @@ class SitemapTest(BaseTest):
         page1, page2, page3 = self.get_pages()
 
         try:
-            title_language = page1.get_title_obj().language
+            page_content_language = page1.get_content_obj().language if CMS_41 else page1.get_title_obj().language
         except AttributeError:
-            title_language = page1.get_page_content_obj_attribute("language")
+            page_content_language = page1.get_page_content_obj_attribute("language")
 
         sitemap = self.client.get("/sitemap.xml")
         test_string = (
             "<url><loc>http://example.com/%s/</loc><lastmod>%s</lastmod><changefreq>"
-            "monthly</changefreq><priority>0.5</priority></url>" % (title_language, now().strftime("%Y-%m-%d"))
+            "monthly</changefreq><priority>0.5</priority></url>" % (page_content_language, now().strftime("%Y-%m-%d"))
         )
         self.assertContains(sitemap, test_string)
 
@@ -37,12 +38,12 @@ class SitemapTest(BaseTest):
             page1.publish("it")
 
         try:
-            title_language = page1.get_title_obj().language
+            page_content_language = page1.get_content_obj().language if CMS_41 else page1.get_title_obj().language
         except AttributeError:
-            title_language = page1.get_page_content_obj_attribute("language")
+            page_content_language = page1.get_page_content_obj_attribute("language")
         test_string = (
             "<url><loc>http://example.com/%s/</loc><lastmod>%s</lastmod><changefreq>"
-            "never</changefreq><priority>0.2</priority></url>" % (title_language, now().strftime("%Y-%m-%d"))
+            "never</changefreq><priority>0.2</priority></url>" % (page_content_language, now().strftime("%Y-%m-%d"))
         )
         sitemap = self.client.get("/sitemap.xml")
         self.assertContains(sitemap, test_string)
@@ -104,7 +105,7 @@ class SitemapTest(BaseTest):
         # Check the latest version modified date for the page is checked for lastmod()
         # if versioning is enabled, Currenly test is skipped , as this require changes in testsuite
         page_1 = create_page("page-one", "page.html", language="en", created_by=self.user)
-        page_content = create_title(title="page un", language="en", page=page_1, created_by=self.user)
+        page_content = create_page_content(title="page un", language="en", page=page_1, created_by=self.user)
         if is_versioning_enabled():
             page_content.versions.first().publish(self.user)
         last_modified_date = "<lastmod>%s</lastmod>" % (page_content.versions.first().modified.strftime("%Y-%m-%d"))

@@ -13,6 +13,12 @@ History
 Features
 --------
 
+- Add support for CMS 4.1.x
+
+
+Features
+--------
+
 - Add support for Python 3.10
 - Dropped support for Python < 3.8 
 - Add support for 4.2 < Django < 5

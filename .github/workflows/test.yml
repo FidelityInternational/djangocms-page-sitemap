@@ -9,12 +9,13 @@ jobs:
     continue-on-error: ${{ matrix.continue-on-error }}
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         django: [32, 42]
-        cms: [40]
+        cms: [40, 41]
         requirements-file: [
             dj32_cms40.txt,
             dj42_cms40.txt,
+            dj42_cms41.txt,
         ]
         continue-on-error: [true]
     steps:
@@ -40,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: |
         python setup.py install
-        pip install -r tests/requirements/dj${{matrix.django}}_cms${{matrix.cms}}.txt
+        pip install -r tests/requirements/${{matrix.requirements-file}}
         sudo apt-get install gettext
         python -m pip install --upgrade pip setuptools tox>4
     - name: Test with tox
